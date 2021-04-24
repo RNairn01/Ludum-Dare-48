@@ -6,20 +6,26 @@ using TMPro;
 public class TextManager : MonoBehaviour
 {
     private WordChecker wordChecker;
+    private GameManager gameManager;
     public TextMeshProUGUI mustContainContent;
     public TextMeshProUGUI cantContainContent;
     public TextMeshProUGUI minLengthContent;
     public TextMeshProUGUI answerComment;
+    public TextMeshProUGUI scoreCounter;
+    public TextMeshProUGUI multiplier;
+    
     // Start is called before the first frame update
     void Start()
     {
         wordChecker = FindObjectOfType<WordChecker>();
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        scoreCounter.text = gameManager.score.ToString();
+        multiplier.text = gameManager.currentScoreMultiplier.ToString(".0");
     }
 
     // I could just overload this method but ehhhhhhhhh

@@ -70,11 +70,13 @@ public class WordChecker : MonoBehaviour
         {
             Debug.Log("FAILURE - Already used");
             textManager.FailureComment("used", '0');
+            gameManager.wordStreak = 0;
         }
         else if (answer.Length < minLength)
         {
             Debug.Log("FAILURE - Too short");
             textManager.FailureComment("short", '0');
+            gameManager.wordStreak = 0;
         } 
         else
         {
@@ -88,6 +90,7 @@ public class WordChecker : MonoBehaviour
                     Debug.Log($"FAILURE - Must contain {mustLetter}");
                     textManager.FailureComment("letterMust", mustLetter);
                     willSucceed = false;
+                    gameManager.wordStreak = 0;
                     break;
                 }
             }
@@ -99,6 +102,7 @@ public class WordChecker : MonoBehaviour
                     Debug.Log($"FAILURE - Can't contain {cantLetter}");
                     textManager.FailureComment("letterCant", cantLetter);
                     willSucceed = false;
+                    gameManager.wordStreak = 0;
                     break;
                 }
             }
@@ -107,12 +111,16 @@ public class WordChecker : MonoBehaviour
             {
                 Debug.Log("SUCCESS!");
                 textManager.SuccessComment(answer);
+                gameManager.IncreaseScore(answer);
+                gameManager.totalCorrectWords++;
+                gameManager.wordStreak++;
                 usedWords.Add(answer);
             } 
             else if (Array.Find(acceptedWords, e => e == answer) == null)
             {
                 Debug.Log("FAILURE - Invalid word");
                 textManager.FailureComment("invalid", '0');
+                gameManager.wordStreak = 0;
             }
         }
     }
