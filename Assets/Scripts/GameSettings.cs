@@ -13,7 +13,7 @@ public enum Difficulty
 public class GameSettings : MonoBehaviour
 {
    public static Difficulty gameDifficulty = Difficulty.Normal;
-   public static int TimerLength { get; private set; }
+   public static int timerLength;
    public static int lives;
    public static float scoreMultiplier;
    
@@ -23,17 +23,17 @@ public class GameSettings : MonoBehaviour
       switch (gameDifficulty)
       {
          case Difficulty.Easy:
-            TimerLength = 15;
+            timerLength = 15;
             lives = 5;
             scoreMultiplier = 1;
             break;
          case Difficulty.Normal:
-            TimerLength = 10;
+            timerLength = 10;
             lives = 3;
             scoreMultiplier = 1.5f;
             break;
          case Difficulty.Hard:
-            TimerLength = 5;
+            timerLength = 5;
             lives = 3;
             scoreMultiplier = 2;
             break;

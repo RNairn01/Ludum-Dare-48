@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class WordChecker : MonoBehaviour
 {
@@ -10,21 +13,107 @@ public class WordChecker : MonoBehaviour
     public string[] acceptedWords;
 
     public List<string> usedWords;
+
+    public List<char> mustContain;
+    public List<char> cantContain;
+
+    public int minLength;
+
+    private GameManager gameManager;
+    private TextManager textManager;
+    
+    private char[] consonants = "bcdfghjklmnpqrstvwxyz".ToCharArray();
+    
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = FindObjectOfType<GameManager>();
+        textManager = FindObjectOfType<TextManager>();
         LoadWords(pathToEnglish);
         usedWords = new List<string>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
         
+        SetConditions();
     }
 
     private void LoadWords(string path)
     {
         acceptedWords = File.ReadAllLines(path);
+    }
+
+    public void SetConditions()
+    {
+        var availableConsonants = new List<char>(consonants);
+        mustContain.Clear();
+        cantContain.Clear();
+        minLength = Random.Range(1, 4) + gameManager.currentSleepDepth;
+        for (int i = 0; i < Random.Range(0, gameManager.currentSleepDepth+1); i++)
+        {
+            int rand = Random.Range(0, availableConsonants.Count);
+            mustContain.Add(availableConsonants[rand]);
+            availableConsonants.RemoveAt(rand);
+        }
+        for (int i = 0; i < Random.Range(0, gameManager.currentSleepDepth+1); i++)
+        {
+            int rand = Random.Range(0, availableConsonants.Count);
+            cantContain.Add(availableConsonants[rand]);
+            availableConsonants.RemoveAt(rand);
+        }
+
+        textManager.mustContainContent.text = string.Join(", ", mustContain);
+        textManager.cantContainContent.text = string.Join(", ", cantContain);
+        textManager.minLengthContent.text = minLength.ToString();
+    }
+    
+    public void CheckWord(string answer)
+    {
+        if (usedWords.Contains(answer))
+        {
+            Debug.Log("FAILURE - Already used");
+            textManager.FailureComment("used", '0');
+        }
+        else if (answer.Length < minLength)
+        {
+            Debug.Log("FAILURE - Too short");
+            textManager.FailureComment("short", '0');
+        } 
+        else
+        {
+            var answerArr = answer.ToCharArray();
+            bool willSucceed = true;
+            
+            foreach (var mustLetter in mustContain)
+            {
+                if (!answerArr.Contains(mustLetter))
+                {
+                    Debug.Log($"FAILURE - Must contain {mustLetter}");
+                    textManager.FailureComment("letterMust", mustLetter);
+                    willSucceed = false;
+                    break;
+                }
+            }
+
+            foreach (var cantLetter in cantContain)
+            {
+                if (answerArr.Contains(cantLetter))
+                {
+                    Debug.Log($"FAILURE - Can't contain {cantLetter}");
+                    textManager.FailureComment("letterCant", cantLetter);
+                    willSucceed = false;
+                    break;
+                }
+            }
+
+            if (willSucceed && Array.Find(acceptedWords, e => e == answer) != null)
+            {
+                Debug.Log("SUCCESS!");
+                textManager.SuccessComment(answer);
+                usedWords.Add(answer);
+            } 
+            else if (Array.Find(acceptedWords, e => e == answer) == null)
+            {
+                Debug.Log("FAILURE - Invalid word");
+                textManager.FailureComment("invalid", '0');
+            }
+        }
     }
 }

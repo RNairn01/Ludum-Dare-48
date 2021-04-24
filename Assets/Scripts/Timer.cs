@@ -6,10 +6,13 @@ using TMPro;
 
 public class Timer : MonoBehaviour
 {
-    private TextMeshProUGUI timerText; 
+    private TextMeshProUGUI timerText;
+
+    private WordChecker wordChecker;
     // Start is called before the first frame update
     void Start()
     {
+        wordChecker = FindObjectOfType<WordChecker>();
         InvokeRepeating("DecrementTimer", 1, 1);
     }
 
@@ -44,6 +47,7 @@ public class Timer : MonoBehaviour
 
     public void ResetTimer()
     {
-        timerText.text = GameSettings.TimerLength.ToString();
+        timerText.text = GameSettings.timerLength.ToString();
+        wordChecker.SetConditions();
     }
 }
