@@ -13,11 +13,15 @@ public class TakeInput : MonoBehaviour
     private Regex rx;
     private List<string> currentInput;
     private LTDescr blinkCall;
+    private Timer timer;
+    private WordChecker wordChcker;
     
     // Start is called before the first frame update
     void Start()
     {
         rx = new Regex("[A-Za-z]");
+        timer = FindObjectOfType<Timer>();
+        wordChcker = FindObjectOfType<WordChecker>();
         currentInput = new List<string>();
         currentInput.Add("|");
     }
@@ -49,21 +53,6 @@ public class TakeInput : MonoBehaviour
         {
             currentInput[currentInput.Count - 1] = charToTest;
             currentInput.Add("|");
-            /*
-            willBlink = false;
-            try
-            {
-                LeanTween.cancel(blinkCall.uniqueId);
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e);
-            }
-        
-
-            blinkCall = LeanTween.delayedCall(0.5f, () => willBlink = true);
-            */
-            
         }
 
         if (Input.GetKey(KeyCode.Backspace) && canBackspace && currentInput.Count > 1)
@@ -79,8 +68,9 @@ public class TakeInput : MonoBehaviour
             string submittedString = string.Join("",currentInput.GetRange(0, currentInput.Count-1));
             currentInput.RemoveRange(0, currentInput.Count - 1);
             Debug.Log(submittedString);
-            
+            timer.ResetTimer();
             //TODO: Implement submission checking against dictionary
+            CheckWord(submittedString);
         }
     }
 
@@ -97,5 +87,22 @@ public class TakeInput : MonoBehaviour
             });
         }
 
+    }
+
+    private void CheckWord(string answer)
+    {
+        if (wordChcker.usedWords.Contains(answer))
+        {
+            Debug.Log("already used");
+        }
+        else if (Array.Find(wordChcker.acceptedWords, e => e == answer) != null)
+        {
+            Debug.Log("yes");
+            wordChcker.usedWords.Add(answer);
+        }
+        else
+        {
+            Debug.Log("no");
+        }
     }
 }
