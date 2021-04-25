@@ -11,6 +11,8 @@ public class WordChecker : MonoBehaviour
     private string pathToEnglish = "Assets/Resources/Dictionary/words_alpha.txt";
 
     public string[] acceptedWords;
+    public List<string> acceptedWordsTrimmed;
+    public TextAsset dictionary;
 
     public List<string> usedWords;
 
@@ -31,15 +33,23 @@ public class WordChecker : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         textManager = FindObjectOfType<TextManager>();
         audioManager = FindObjectOfType<AudioManager>();
-        LoadWords(pathToEnglish);
+        LoadWords();
+        Debug.Log(acceptedWords.Length);
         usedWords = new List<string>();
         
         SetConditions();
     }
 
-    private void LoadWords(string path)
+    private void LoadWords()
     {
-        acceptedWords = File.ReadAllLines(path);
+        acceptedWordsTrimmed = new List<string>();
+        acceptedWords = dictionary.ToString().Split('\n');
+        foreach (var word in acceptedWords)
+        {
+            acceptedWordsTrimmed.Add(word.Trim());
+        }
+        Debug.Log(acceptedWords[100]);
+        Debug.Log(acceptedWordsTrimmed[100]);
     }
 
     public void SetConditions()
@@ -110,7 +120,7 @@ public class WordChecker : MonoBehaviour
                 }
             }
 
-            if (willSucceed && Array.Find(acceptedWords, e => e == answer) != null)
+            if (willSucceed && acceptedWordsTrimmed.Contains(answer)/*Array.Find(acceptedWords, e => e == answer) != null*/)
             {
                 Debug.Log("SUCCESS!");
                 textManager.SuccessComment(answer);
@@ -122,7 +132,7 @@ public class WordChecker : MonoBehaviour
                 textManager.IncreaseSlider();
                 usedWords.Add(answer);
             } 
-            else if (Array.Find(acceptedWords, e => e == answer) == null)
+            else if (!acceptedWordsTrimmed.Contains(answer)/*Array.Find(acceptedWords, e => e == answer) == null*/)
             {
                 Debug.Log("FAILURE - Invalid word");
                 textManager.FailureComment("invalid", '0');
