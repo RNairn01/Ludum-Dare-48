@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
     public float currentScoreMultiplier;
     private AudioManager audioManager;
     private TextManager textManager;
+    [SerializeField] Image gameOverBlackout;
     public bool isGameOver = false;
 
     //private WordChecker wordChecker;
@@ -69,5 +71,13 @@ public class GameManager : MonoBehaviour
     private void GameOver()
     {
         Debug.Log("Game Over");
+        textManager.SetLongestWord();
+        LeanTween.delayedCall(0.5f, () =>
+        {
+            LeanTween.alphaCanvas(gameOverBlackout.GetComponent<CanvasGroup>(), 1f, 0.5f);
+            gameOverBlackout.GetComponent<CanvasGroup>().blocksRaycasts = true;
+            gameOverBlackout.GetComponent<CanvasGroup>().interactable = true;
+        });
+
     }
 }

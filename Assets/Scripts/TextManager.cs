@@ -16,6 +16,8 @@ public class TextManager : MonoBehaviour
     public TextMeshProUGUI multiplier;
     public TextMeshProUGUI sleepDepth;
     public TextMeshProUGUI wordStreak;
+    public TextMeshProUGUI finalScore;
+    public TextMeshProUGUI longestWord;
 
     public Slider sleepDepthBar;
     // Start is called before the first frame update
@@ -29,6 +31,7 @@ public class TextManager : MonoBehaviour
     void Update()
     {
         scoreCounter.text = gameManager.score.ToString();
+        finalScore.text = gameManager.score.ToString();
         multiplier.text = $"x{gameManager.currentScoreMultiplier.ToString("0.0")}";
         sleepDepth.text = gameManager.currentSleepDepth.ToString();
         wordStreak.text = gameManager.wordStreak.ToString();
@@ -71,13 +74,13 @@ public class TextManager : MonoBehaviour
     public void IncreaseSlider()
     {
         
-        if (gameManager.currentSleepDepth >= 5 && sleepDepthBar.value >= 10)
+        if (gameManager.currentSleepDepth >= 5 && sleepDepthBar.value >= 5)
         {
-            sleepDepthBar.value = 10;
+            sleepDepthBar.value = 5;
             return;
         } 
         
-        if (sleepDepthBar.value >= 10)
+        if (sleepDepthBar.value >= 5)
         {
             sleepDepthBar.value = 0;
             gameManager.currentSleepDepth += 1;
@@ -101,5 +104,19 @@ public class TextManager : MonoBehaviour
         {
             answerComment.text = "";
         });
+    }
+
+    public void SetLongestWord()
+    {
+        string currentLongestWord = "";
+        foreach (var word in wordChecker.usedWords)
+        {
+            if (word.Length > currentLongestWord.Length)
+            {
+                currentLongestWord = word;
+            }
+        }
+
+        longestWord.text = currentLongestWord;
     }
 }
