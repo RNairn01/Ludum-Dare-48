@@ -47,6 +47,7 @@ public class TakeInput : MonoBehaviour
     private bool canBackspace = true;
     private bool willBlink = true;
     private bool canBlink = true;
+    private bool canPressEnter = true;
     private void ManageInput()
     {
 
@@ -65,12 +66,13 @@ public class TakeInput : MonoBehaviour
 
         };
 
-        if (Input.GetKeyDown(KeyCode.Return) && !gameManager.isGameOver)
+        if (Input.GetKeyDown(KeyCode.Return) && !gameManager.isGameOver && canPressEnter)
         {
+            canPressEnter = false;
+            LeanTween.delayedCall(0.5f, () => canPressEnter = true);
             string submittedString = string.Join("",currentInput.GetRange(0, currentInput.Count-1));
             ClearText();
             Debug.Log(submittedString);
-            //TODO: Implement submission checking against dictionary
             wordChecker.CheckWord(submittedString);
             timer.ResetTimer();
         }
