@@ -11,9 +11,9 @@ public class GameManager : MonoBehaviour
     public int totalCorrectWords;
     public int score;
     public float currentScoreMultiplier;
-    public bool isGameOver = false;
     private AudioManager audioManager;
-    private bool canGameEnd = true;
+    private TextManager textManager;
+    public bool isGameOver = false;
 
     //private WordChecker wordChecker;
     // Start is called before the first frame update
@@ -21,18 +21,20 @@ public class GameManager : MonoBehaviour
     {
         GameSettings.ImplementGameSettings();
         audioManager = FindObjectOfType<AudioManager>();
+        textManager = FindObjectOfType<TextManager>();
         currentSleepDepth = 1;
         currentLives = GameSettings.lives;
         wordStreak = 0;
+        score = 0;
         totalCorrectWords = 0;
         currentScoreMultiplier = GameSettings.scoreMultiplier;
     }
 
     private void Update()
     {
-        if (currentLives <= 0 && canGameEnd)
+        if (currentLives <= 0 && !isGameOver)
         {
-            canGameEnd = false;
+            isGameOver = true;
             GameOver();
         }
     }
@@ -40,6 +42,7 @@ public class GameManager : MonoBehaviour
     public void IncreaseScore(string answer)
     {
         score += Mathf.RoundToInt((5 +answer.Length) * currentScoreMultiplier);
+        textManager.TextPop(textManager.scoreCounter);
         if (score > 9999999) score = 9999999;
     }
 
@@ -49,6 +52,7 @@ public class GameManager : MonoBehaviour
         else
         {
             if (wordStreak % 5 == 0) currentScoreMultiplier += 0.5f;
+            textManager.TextPop(textManager.multiplier);
         }
 
         if (currentScoreMultiplier > 20) currentScoreMultiplier = 20;

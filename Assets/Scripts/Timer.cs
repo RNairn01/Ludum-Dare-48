@@ -20,51 +20,44 @@ public class Timer : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         timerText = GetComponent<TextMeshProUGUI>();
         timerText.text = GameSettings.timerLength.ToString();
-        InvokeRepeating("DecrementTimer", 1, 1);
+        ResetTimer();
+        InvokeRepeating("DecrementTimer", 2, 1);
     }
 
-    private void Awake()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-    
     private void DecrementTimer()
     {
-        int newValue = Int32.Parse(timerText.text) - 1;
-        if (newValue < 1)
+        if (!gameManager.isGameOver)
         {
-            //TODO: Implement lose live on timer run out
-            //TODO: Give new prompt
-            ResetTimer();
-            takeInput.ClearText();
-            gameManager.wordStreak = 0;
-            gameManager.currentLives -= 1;
-            //this sound effect should be temporary
-            audioManager.Play("wordFail");
-        }
-        else
-        {
-            switch (newValue)
+            int newValue = Int32.Parse(timerText.text) - 1;
+            if (newValue < 1)
             {
-                case 3:
-                    audioManager.Play("timerThree");
-                    break;
-                case 2:
-                    audioManager.Play("timerTwo");
-                    break;
-                case 1:
-                    audioManager.Play("timerOne");
-                    break;
+                ResetTimer();
+                takeInput.ClearText();
+                gameManager.wordStreak = 0;
+                gameManager.currentLives -= 1;
+                //this sound effect should be temporary
+                //I cannot remember why that sound effect was supposed to be temporary because I like it
+                audioManager.Play("wordFail");
             }
-            timerText.text = newValue.ToString();
+            else
+            {
+                switch (newValue)
+                {
+                    case 3:
+                        audioManager.Play("timerThree");
+                        break;
+                    case 2:
+                        audioManager.Play("timerTwo");
+                        break;
+                    case 1:
+                        audioManager.Play("timerOne");
+                        break;
+                }
+
+                timerText.text = newValue.ToString();
+            }
         }
-        
+        else return;
     }
 
     public void ResetTimer()

@@ -9,6 +9,8 @@ public class LifeDisplay : MonoBehaviour
     private GameManager gameManager;
 
     [SerializeField] private Image[] lifeImages;
+    [SerializeField] private Sprite[] lifeBackgrounds;
+    [SerializeField] private Image background;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,18 +24,20 @@ public class LifeDisplay : MonoBehaviour
     {
         for (int i = 0; i < lifeImages.Length; i++)
         {
-            if (Array.IndexOf(lifeImages, lifeImages[i]) >= gameManager.currentLives)
+            if (i >= gameManager.currentLives)
             {
                 lifeImages[i].enabled = false;
             }
         }
+
+        background.sprite = lifeBackgrounds[gameManager.currentLives];
     }
 
     private void PopulateLives()
     {
         for (int i = 0; i < lifeImages.Length; i++)
         {
-            if (Array.IndexOf(lifeImages, lifeImages[i]) >= GameSettings.lives)
+            if (i >= GameSettings.lives)
             {
                 lifeImages[i].enabled = false;
             }

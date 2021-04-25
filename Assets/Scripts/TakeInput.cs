@@ -15,6 +15,7 @@ public class TakeInput : MonoBehaviour
     private LTDescr blinkCall;
     private Timer timer;
     private WordChecker wordChecker;
+    private GameManager gameManager;
     
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,7 @@ public class TakeInput : MonoBehaviour
         rx = new Regex("[A-Za-z]");
         timer = FindObjectOfType<Timer>();
         wordChecker = FindObjectOfType<WordChecker>();
+        gameManager = FindObjectOfType<GameManager>();
         currentInput = new List<string>();
         currentInput.Add("|");
     }
@@ -49,7 +51,7 @@ public class TakeInput : MonoBehaviour
     {
 
         string charToTest = Input.inputString;
-        if (rx.IsMatch(charToTest))
+        if (rx.IsMatch(charToTest) && !gameManager.isGameOver)
         {
             currentInput[currentInput.Count - 1] = charToTest.ToLower();
             currentInput.Add("|");
@@ -63,7 +65,7 @@ public class TakeInput : MonoBehaviour
 
         };
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) && !gameManager.isGameOver)
         {
             string submittedString = string.Join("",currentInput.GetRange(0, currentInput.Count-1));
             ClearText();

@@ -18,7 +18,6 @@ public class TextManager : MonoBehaviour
     public TextMeshProUGUI wordStreak;
 
     public Slider sleepDepthBar;
-    private int sliderCounter;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +38,7 @@ public class TextManager : MonoBehaviour
     public void FailureComment(string cause, char missingLetter)
     {
         answerComment.color = Color.red;
+        CommentPop();
 
         switch (cause)
         {
@@ -65,6 +65,7 @@ public class TextManager : MonoBehaviour
     {
         answerComment.color = Color.green;
         answerComment.text = word.ToUpper();
+        CommentPop();
     }
 
     public void IncreaseSlider()
@@ -80,10 +81,25 @@ public class TextManager : MonoBehaviour
         {
             sleepDepthBar.value = 0;
             gameManager.currentSleepDepth += 1;
+            TextPop(sleepDepth);
         }
         else
         {
             sleepDepthBar.value += 1;
         }
+    }
+
+    public void TextPop(TextMeshProUGUI targetText)
+    {
+        targetText.fontSize += 15;
+        LeanTween.delayedCall(0.5f, () => targetText.fontSize -= 15);
+    }
+
+    private void CommentPop()
+    {
+        LeanTween.delayedCall(0.8f, () =>
+        {
+            answerComment.text = "";
+        });
     }
 }
