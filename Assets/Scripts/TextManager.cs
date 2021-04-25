@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class TextManager : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class TextManager : MonoBehaviour
     public TextMeshProUGUI multiplier;
     public TextMeshProUGUI sleepDepth;
     public TextMeshProUGUI wordStreak;
+
+    public Slider sleepDepthBar;
+    private int sliderCounter;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +30,7 @@ public class TextManager : MonoBehaviour
     void Update()
     {
         scoreCounter.text = gameManager.score.ToString();
-        multiplier.text = $"x{gameManager.currentScoreMultiplier.ToString(".0")}";
+        multiplier.text = $"x{gameManager.currentScoreMultiplier.ToString("0.0")}";
         sleepDepth.text = gameManager.currentSleepDepth.ToString();
         wordStreak.text = gameManager.wordStreak.ToString();
     }
@@ -39,19 +43,19 @@ public class TextManager : MonoBehaviour
         switch (cause)
         {
             case "letterMust":
-                answerComment.text = $"FAILURE! - Must contain {missingLetter}";
+                answerComment.text = $"Must contain {missingLetter}";
                 break;
             case "letterCant":
-                answerComment.text = $"FAILURE! - Must contain {missingLetter}";
+                answerComment.text = $"Must contain {missingLetter}";
                 break;
             case "short":
-                answerComment.text = "FAILURE! - Word too short";
+                answerComment.text = "Word too short";
                 break;
             case "used":
-                answerComment.text = "FAILURE! - Word already used";
+                answerComment.text = "Word already used";
                 break;
             case "invalid":
-                answerComment.text = "FAILURE! - Invalid word";
+                answerComment.text = "Invalid word";
                 break;
         }
         
@@ -60,6 +64,26 @@ public class TextManager : MonoBehaviour
     public void SuccessComment(string word)
     {
         answerComment.color = Color.green;
-        answerComment.text = $"SUCCESS! - {word}";
+        answerComment.text = word.ToUpper();
+    }
+
+    public void IncreaseSlider()
+    {
+        
+        if (gameManager.currentSleepDepth >= 5 && sleepDepthBar.value >= 10)
+        {
+            sleepDepthBar.value = 10;
+            return;
+        } 
+        
+        if (sleepDepthBar.value >= 10)
+        {
+            sleepDepthBar.value = 0;
+            gameManager.currentSleepDepth += 1;
+        }
+        else
+        {
+            sleepDepthBar.value += 1;
+        }
     }
 }

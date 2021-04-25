@@ -17,12 +17,15 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameSettings.ImplementGameSettings();
         //wordChecker = FindObjectOfType<WordChecker>();
         currentSleepDepth = 1;
         currentLives = GameSettings.lives;
         wordStreak = 0;
         totalCorrectWords = 0;
         currentScoreMultiplier = GameSettings.scoreMultiplier;
+        
+        
 
     }
 

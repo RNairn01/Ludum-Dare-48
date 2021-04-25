@@ -8,21 +8,24 @@ public class Timer : MonoBehaviour
 {
     private TextMeshProUGUI timerText;
     private AudioManager audioManager;
-
     private WordChecker wordChecker;
+    private TakeInput takeInput;
+    private GameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
         wordChecker = FindObjectOfType<WordChecker>();
         audioManager = FindObjectOfType<AudioManager>();
+        takeInput = FindObjectOfType<TakeInput>();
+        gameManager = FindObjectOfType<GameManager>();
+        timerText = GetComponent<TextMeshProUGUI>();
+        timerText.text = GameSettings.timerLength.ToString();
         InvokeRepeating("DecrementTimer", 1, 1);
     }
 
     private void Awake()
     {
-        timerText = GetComponent<TextMeshProUGUI>();
-        //TODO: Implement this in game manager
-        GameSettings.ImplementGameSettings();
+        
     }
 
     // Update is called once per frame
@@ -39,6 +42,9 @@ public class Timer : MonoBehaviour
             //TODO: Implement lose live on timer run out
             //TODO: Give new prompt
             ResetTimer();
+            takeInput.ClearText();
+            gameManager.wordStreak = 0;
+            gameManager.currentLives -= 1;
             //this sound effect should be temporary
             audioManager.Play("wordFail");
         }

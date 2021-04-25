@@ -66,7 +66,7 @@ public class TakeInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             string submittedString = string.Join("",currentInput.GetRange(0, currentInput.Count-1));
-            currentInput.RemoveRange(0, currentInput.Count - 1);
+            ClearText();
             Debug.Log(submittedString);
             //TODO: Implement submission checking against dictionary
             wordChecker.CheckWord(submittedString);
@@ -87,5 +87,10 @@ public class TakeInput : MonoBehaviour
             });
         }
 
+    }
+
+    public void ClearText()
+    {
+        currentInput.RemoveRange(0, currentInput.Count - 1); 
     }
 }

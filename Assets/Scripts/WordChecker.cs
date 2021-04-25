@@ -66,6 +66,7 @@ public class WordChecker : MonoBehaviour
         textManager.minLengthContent.text = minLength.ToString();
     }
     
+    //This is a nightmare, but it is MY nightmare
     public void CheckWord(string answer)
     {
         if (usedWords.Contains(answer))
@@ -74,6 +75,7 @@ public class WordChecker : MonoBehaviour
             textManager.FailureComment("used", '0');
             gameManager.wordStreak = 0;
             gameManager.CheckMultiplier(false);
+            gameManager.currentLives -= 1;
             audioManager.Play("wordFail");
         }
         else if (answer.Length < minLength)
@@ -82,6 +84,7 @@ public class WordChecker : MonoBehaviour
             textManager.FailureComment("short", '0');
             gameManager.wordStreak = 0;
             gameManager.CheckMultiplier(false);
+            gameManager.currentLives -= 1;
             audioManager.Play("wordFail");
         } 
         else
@@ -98,6 +101,7 @@ public class WordChecker : MonoBehaviour
                     willSucceed = false;
                     gameManager.wordStreak = 0;
                     gameManager.CheckMultiplier(false);
+                    gameManager.currentLives -= 1;
                     audioManager.Play("wordFail");
                     break;
                 }
@@ -112,6 +116,7 @@ public class WordChecker : MonoBehaviour
                     willSucceed = false;
                     gameManager.wordStreak = 0;
                     gameManager.CheckMultiplier(false);
+                    gameManager.currentLives -= 1;
                     audioManager.Play("wordFail");
                     break;
                 }
@@ -126,6 +131,7 @@ public class WordChecker : MonoBehaviour
                 gameManager.wordStreak++;
                 gameManager.CheckMultiplier(true);
                 audioManager.Play("wordSuccess");
+                textManager.IncreaseSlider();
                 usedWords.Add(answer);
             } 
             else if (Array.Find(acceptedWords, e => e == answer) == null)
@@ -134,6 +140,7 @@ public class WordChecker : MonoBehaviour
                 textManager.FailureComment("invalid", '0');
                 gameManager.wordStreak = 0;
                 gameManager.CheckMultiplier(false);
+                gameManager.currentLives -= 1;
                 audioManager.Play("wordFail");
             }
         }
