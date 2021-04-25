@@ -73,19 +73,13 @@ public class WordChecker : MonoBehaviour
         {
             Debug.Log("FAILURE - Already used");
             textManager.FailureComment("used", '0');
-            gameManager.wordStreak = 0;
-            gameManager.CheckMultiplier(false);
-            gameManager.currentLives -= 1;
-            audioManager.Play("wordFail");
+            gameManager.FailWord();
         }
         else if (answer.Length < minLength)
         {
             Debug.Log("FAILURE - Too short");
             textManager.FailureComment("short", '0');
-            gameManager.wordStreak = 0;
-            gameManager.CheckMultiplier(false);
-            gameManager.currentLives -= 1;
-            audioManager.Play("wordFail");
+            gameManager.FailWord();
         } 
         else
         {
@@ -99,10 +93,7 @@ public class WordChecker : MonoBehaviour
                     Debug.Log($"FAILURE - Must contain {mustLetter}");
                     textManager.FailureComment("letterMust", mustLetter);
                     willSucceed = false;
-                    gameManager.wordStreak = 0;
-                    gameManager.CheckMultiplier(false);
-                    gameManager.currentLives -= 1;
-                    audioManager.Play("wordFail");
+                    gameManager.FailWord();
                     break;
                 }
             }
@@ -114,10 +105,7 @@ public class WordChecker : MonoBehaviour
                     Debug.Log($"FAILURE - Can't contain {cantLetter}");
                     textManager.FailureComment("letterCant", cantLetter);
                     willSucceed = false;
-                    gameManager.wordStreak = 0;
-                    gameManager.CheckMultiplier(false);
-                    gameManager.currentLives -= 1;
-                    audioManager.Play("wordFail");
+                    gameManager.FailWord();
                     break;
                 }
             }
@@ -138,10 +126,7 @@ public class WordChecker : MonoBehaviour
             {
                 Debug.Log("FAILURE - Invalid word");
                 textManager.FailureComment("invalid", '0');
-                gameManager.wordStreak = 0;
-                gameManager.CheckMultiplier(false);
-                gameManager.currentLives -= 1;
-                audioManager.Play("wordFail");
+                gameManager.FailWord();
             }
         }
     }

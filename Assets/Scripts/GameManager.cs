@@ -12,21 +12,29 @@ public class GameManager : MonoBehaviour
     public int score;
     public float currentScoreMultiplier;
     public bool isGameOver = false;
+    private AudioManager audioManager;
+    private bool canGameEnd = true;
 
     //private WordChecker wordChecker;
     // Start is called before the first frame update
     void Start()
     {
         GameSettings.ImplementGameSettings();
-        //wordChecker = FindObjectOfType<WordChecker>();
+        audioManager = FindObjectOfType<AudioManager>();
         currentSleepDepth = 1;
         currentLives = GameSettings.lives;
         wordStreak = 0;
         totalCorrectWords = 0;
         currentScoreMultiplier = GameSettings.scoreMultiplier;
-        
-        
+    }
 
+    private void Update()
+    {
+        if (currentLives <= 0 && canGameEnd)
+        {
+            canGameEnd = false;
+            GameOver();
+        }
     }
 
     public void IncreaseScore(string answer)
@@ -46,9 +54,16 @@ public class GameManager : MonoBehaviour
         if (currentScoreMultiplier > 20) currentScoreMultiplier = 20;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void FailWord()
     {
-        
+        wordStreak = 0;
+        CheckMultiplier(false);
+        currentLives -= 1;
+        audioManager.Play("wordFail");
+    }
+
+    private void GameOver()
+    {
+        Debug.Log("Game Over");
     }
 }
