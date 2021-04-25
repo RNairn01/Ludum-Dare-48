@@ -38,6 +38,7 @@ public class WordChecker : MonoBehaviour
         usedWords = new List<string>();
         
         SetConditions();
+        
     }
 
     private void LoadWords()
@@ -57,8 +58,8 @@ public class WordChecker : MonoBehaviour
         var availableConsonants = new List<char>(consonants);
         mustContain.Clear();
         cantContain.Clear();
-        minLength = Random.Range(1, 4) + gameManager.currentSleepDepth;
-        for (int i = 0; i < Random.Range(0, gameManager.currentSleepDepth+1); i++)
+        minLength = Random.Range(0, 4) + gameManager.currentSleepDepth;
+        for (int i = 0; i < Random.Range(1, gameManager.currentSleepDepth+1); i++)
         {
             int rand = Random.Range(0, availableConsonants.Count);
             mustContain.Add(availableConsonants[rand]);
@@ -71,9 +72,50 @@ public class WordChecker : MonoBehaviour
             availableConsonants.RemoveAt(rand);
         }
 
-        textManager.mustContainContent.text = string.Join(", ", mustContain);
-        textManager.cantContainContent.text = string.Join(", ", cantContain);
-        textManager.minLengthContent.text = minLength.ToString();
+        bool isValid = false;
+        foreach (var word in acceptedWordsTrimmed)
+        {
+            bool wordOkay = !(word.Length < minLength);
+
+            foreach (var letter in mustContain)
+            {
+                if (!word.Contains(letter))
+                {
+                    wordOkay = false;
+                    break;
+                }
+                
+            }
+
+            foreach (var letter in cantContain)
+            {
+                if (word.Contains(letter))
+                {
+                    wordOkay = false;
+                    break;
+                }
+                
+            }
+            if (wordOkay)
+            {
+                isValid = true;
+                Debug.Log(word);
+                break;
+            }
+        }
+
+        if (isValid)
+        {
+            textManager.mustContainContent.text = string.Join(", ", mustContain);
+            textManager.cantContainContent.text = string.Join(", ", cantContain);
+            textManager.minLengthContent.text = minLength.ToString();
+        }
+        else
+        {
+            SetConditions();
+            return;
+        }
+
     }
     
     //This is a nightmare, but it is MY nightmare

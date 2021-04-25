@@ -310,7 +310,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -325,7 +325,7 @@ Canvas:
   m_GameObject: {fileID: 721444}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -1217,6 +1217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acceptedWords: []
+  acceptedWordsTrimmed: []
   dictionary: {fileID: 4900000, guid: c1a61b3b5e45d471e8d16484483a441b, type: 3}
   usedWords: []
   mustContain: 
@@ -1272,7 +1273,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2350,7 +2351,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -783.26, y: 367}
+  m_AnchoredPosition: {x: -683, y: 330}
   m_SizeDelta: {x: 353.4721, y: 329.4061}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1077414317
@@ -2378,7 +2379,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.54509807, g: 0.5176471, b: 0.5176471, a: 1}
     m_PressedColor: {r: 0.54509807, g: 0.5176471, b: 0.5176471, a: 1}
     m_SelectedColor: {r: 0.54509807, g: 0.5176471, b: 0.5176471, a: 1}
-    m_DisabledColor: {r: 0.54509807, g: 0.5176471, b: 0.5176471, a: 0.5019608}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -4024,7 +4025,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -4039,7 +4040,7 @@ Canvas:
   m_GameObject: {fileID: 1658386246}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
