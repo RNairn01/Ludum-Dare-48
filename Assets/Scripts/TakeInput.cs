@@ -59,7 +59,7 @@ public class TakeInput : MonoBehaviour
         {
             canBackspace = false;
             currentInput.RemoveAt(currentInput.Count - 2);
-            LeanTween.delayedCall(0.08f, () => canBackspace = true);
+            LeanTween.delayedCall(0.1f, () => canBackspace = true);
 
         };
 

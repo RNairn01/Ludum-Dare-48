@@ -3275,6 +3275,18 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
     loop: 0
+  - name: Theme
+    clip: {fileID: 8300000, guid: fffb29e5509eb1f3b84662531e9ddfb8, type: 3}
+    volume: 0.6
+    pitch: 0.4
+    source: {fileID: 0}
+    loop: 1
+  - name: Lullaby
+    clip: {fileID: 8300000, guid: 2d728cdf2e95dc780b88d5831ff88808, type: 3}
+    volume: 0.15
+    pitch: 0.35
+    source: {fileID: 0}
+    loop: 1
 --- !u!4 &1744108745
 Transform:
   m_ObjectHideFlags: 0

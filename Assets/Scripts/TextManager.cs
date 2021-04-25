@@ -46,7 +46,7 @@ public class TextManager : MonoBehaviour
                 answerComment.text = $"Must contain {missingLetter}";
                 break;
             case "letterCant":
-                answerComment.text = $"Must contain {missingLetter}";
+                answerComment.text = $"Can't contain {missingLetter}";
                 break;
             case "short":
                 answerComment.text = "Word too short";
