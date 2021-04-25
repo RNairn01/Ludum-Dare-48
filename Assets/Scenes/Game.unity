@@ -1218,7 +1218,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   acceptedWords: []
   acceptedWordsTrimmed: []
+  mostCommonWords: []
+  mostCommonWordsTrimmed: []
   dictionary: {fileID: 4900000, guid: c1a61b3b5e45d471e8d16484483a441b, type: 3}
+  mostCommonWordsDictionary: {fileID: 4900000, guid: 66ef99faf349f994ab0b82a15ca2557e, type: 3}
   usedWords: []
   mustContain: 
   cantContain: 

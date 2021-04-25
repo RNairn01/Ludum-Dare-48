@@ -12,7 +12,10 @@ public class WordChecker : MonoBehaviour
 
     public string[] acceptedWords;
     public List<string> acceptedWordsTrimmed;
+    public string[] mostCommonWords;
+    public List<string> mostCommonWordsTrimmed;
     public TextAsset dictionary;
+    public TextAsset mostCommonWordsDictionary;
 
     public List<string> usedWords;
 
@@ -44,13 +47,19 @@ public class WordChecker : MonoBehaviour
     private void LoadWords()
     {
         acceptedWordsTrimmed = new List<string>();
+        mostCommonWordsTrimmed = new List<string>();
+        
         acceptedWords = dictionary.ToString().Split('\n');
         foreach (var word in acceptedWords)
         {
             acceptedWordsTrimmed.Add(word.Trim());
         }
-        Debug.Log(acceptedWords[100]);
-        Debug.Log(acceptedWordsTrimmed[100]);
+        
+        mostCommonWords = mostCommonWordsDictionary.ToString().Split('\n');
+        foreach (var word in acceptedWords)
+        {
+            mostCommonWordsTrimmed.Add(word.Trim());
+        }
     }
 
     public void SetConditions()
@@ -73,7 +82,7 @@ public class WordChecker : MonoBehaviour
         }
 
         bool isValid = false;
-        foreach (var word in acceptedWordsTrimmed)
+        foreach (var word in mostCommonWordsTrimmed)
         {
             bool wordOkay = !(word.Length < minLength);
 
