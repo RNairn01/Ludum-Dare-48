@@ -29,11 +29,18 @@ public class GameManager : MonoBehaviour
     public void IncreaseScore(string answer)
     {
         score += Mathf.RoundToInt((5 +answer.Length) * currentScoreMultiplier);
+        if (score > 9999999) score = 9999999;
     }
 
-    private void Awake()
+    public void CheckMultiplier(bool didSucceed)
     {
-        //wordChecker.SetConditions();
+        if (!didSucceed) currentScoreMultiplier = GameSettings.scoreMultiplier;
+        else
+        {
+            if (wordStreak % 5 == 0) currentScoreMultiplier += 0.5f;
+        }
+
+        if (currentScoreMultiplier > 20) currentScoreMultiplier = 20;
     }
 
     // Update is called once per frame

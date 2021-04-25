@@ -23,19 +23,19 @@ public class GameSettings : MonoBehaviour
       switch (gameDifficulty)
       {
          case Difficulty.Easy:
-            timerLength = 15;
+            timerLength = 20;
             lives = 5;
             scoreMultiplier = 1;
             break;
          case Difficulty.Normal:
+            timerLength = 15;
+            lives = 3;
+            scoreMultiplier = 1;
+            break;
+         case Difficulty.Hard:
             timerLength = 10;
             lives = 3;
             scoreMultiplier = 1.5f;
-            break;
-         case Difficulty.Hard:
-            timerLength = 5;
-            lives = 3;
-            scoreMultiplier = 2;
             break;
       }
    }

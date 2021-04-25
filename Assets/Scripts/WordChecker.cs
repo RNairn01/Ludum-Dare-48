@@ -21,6 +21,7 @@ public class WordChecker : MonoBehaviour
 
     private GameManager gameManager;
     private TextManager textManager;
+    private AudioManager audioManager;
     
     private char[] consonants = "bcdfghjklmnpqrstvwxyz".ToCharArray();
     
@@ -29,6 +30,7 @@ public class WordChecker : MonoBehaviour
     {
         gameManager = FindObjectOfType<GameManager>();
         textManager = FindObjectOfType<TextManager>();
+        audioManager = FindObjectOfType<AudioManager>();
         LoadWords(pathToEnglish);
         usedWords = new List<string>();
         
@@ -71,16 +73,20 @@ public class WordChecker : MonoBehaviour
             Debug.Log("FAILURE - Already used");
             textManager.FailureComment("used", '0');
             gameManager.wordStreak = 0;
+            gameManager.CheckMultiplier(false);
+            audioManager.Play("wordFail");
         }
         else if (answer.Length < minLength)
         {
             Debug.Log("FAILURE - Too short");
             textManager.FailureComment("short", '0');
             gameManager.wordStreak = 0;
+            gameManager.CheckMultiplier(false);
+            audioManager.Play("wordFail");
         } 
         else
         {
-            var answerArr = answer.ToCharArray();
+            var answerArr = answer.ToLower().ToCharArray();
             bool willSucceed = true;
             
             foreach (var mustLetter in mustContain)
@@ -91,6 +97,8 @@ public class WordChecker : MonoBehaviour
                     textManager.FailureComment("letterMust", mustLetter);
                     willSucceed = false;
                     gameManager.wordStreak = 0;
+                    gameManager.CheckMultiplier(false);
+                    audioManager.Play("wordFail");
                     break;
                 }
             }
@@ -103,6 +111,8 @@ public class WordChecker : MonoBehaviour
                     textManager.FailureComment("letterCant", cantLetter);
                     willSucceed = false;
                     gameManager.wordStreak = 0;
+                    gameManager.CheckMultiplier(false);
+                    audioManager.Play("wordFail");
                     break;
                 }
             }
@@ -114,6 +124,8 @@ public class WordChecker : MonoBehaviour
                 gameManager.IncreaseScore(answer);
                 gameManager.totalCorrectWords++;
                 gameManager.wordStreak++;
+                gameManager.CheckMultiplier(true);
+                audioManager.Play("wordSuccess");
                 usedWords.Add(answer);
             } 
             else if (Array.Find(acceptedWords, e => e == answer) == null)
@@ -121,6 +133,8 @@ public class WordChecker : MonoBehaviour
                 Debug.Log("FAILURE - Invalid word");
                 textManager.FailureComment("invalid", '0');
                 gameManager.wordStreak = 0;
+                gameManager.CheckMultiplier(false);
+                audioManager.Play("wordFail");
             }
         }
     }

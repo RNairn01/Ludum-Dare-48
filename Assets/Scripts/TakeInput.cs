@@ -51,7 +51,7 @@ public class TakeInput : MonoBehaviour
         string charToTest = Input.inputString;
         if (rx.IsMatch(charToTest))
         {
-            currentInput[currentInput.Count - 1] = charToTest;
+            currentInput[currentInput.Count - 1] = charToTest.ToLower();
             currentInput.Add("|");
         }
 

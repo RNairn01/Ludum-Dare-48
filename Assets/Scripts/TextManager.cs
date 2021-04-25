@@ -13,7 +13,8 @@ public class TextManager : MonoBehaviour
     public TextMeshProUGUI answerComment;
     public TextMeshProUGUI scoreCounter;
     public TextMeshProUGUI multiplier;
-    
+    public TextMeshProUGUI sleepDepth;
+    public TextMeshProUGUI wordStreak;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +26,9 @@ public class TextManager : MonoBehaviour
     void Update()
     {
         scoreCounter.text = gameManager.score.ToString();
-        multiplier.text = gameManager.currentScoreMultiplier.ToString(".0");
+        multiplier.text = $"x{gameManager.currentScoreMultiplier.ToString(".0")}";
+        sleepDepth.text = gameManager.currentSleepDepth.ToString();
+        wordStreak.text = gameManager.wordStreak.ToString();
     }
 
     // I could just overload this method but ehhhhhhhhh
